@@ -124,6 +124,16 @@ export default {
           }
         },
         {
+          default: ["q"],
+          name: "Show All",
+          function: this.showAll
+        },
+        {
+          default: ["w"],
+          name: "Hide All",
+          function: this.hideAll
+        },
+        {
           default: ["c"],
           name: "Center Image",
           function: this.fit
