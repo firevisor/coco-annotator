@@ -253,9 +253,9 @@ export default {
         AdminPanel.getUsers(this.limit)
           .then(response => {
             this.users = response.data.users;
-          })
-          .finally(() => this.removeProcess(process));
-      });
+          });
+      })
+      .finally(() => this.removeProcess(process));
     },
     createDataset() {
       if (this.create.name.length < 1) return;

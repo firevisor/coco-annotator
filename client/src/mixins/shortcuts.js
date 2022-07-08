@@ -11,6 +11,7 @@ export default {
     annotator() {
       return [
         {
+          title: "General",
           default: ["arrowup"],
           function: this.moveUp,
           name: "Move Up Annotations"
@@ -122,6 +123,16 @@ export default {
           function: () => {
             if (!this.$refs.eraser.isDisabled) this.activeTool = "Eraser";
           }
+        },
+        {
+          default: ["q"],
+          name: "Show All",
+          function: this.showAll
+        },
+        {
+          default: ["w"],
+          name: "Hide All",
+          function: this.hideAll
         },
         {
           default: ["c"],
