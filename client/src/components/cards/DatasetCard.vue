@@ -137,7 +137,7 @@
               />
               <hr />
 
-                            <Metadata
+              <Metadata
                 :metadata="datasetTags"
                 title="Dataset Tags"
                 ref="datasetTags"
