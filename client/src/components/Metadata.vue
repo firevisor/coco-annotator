@@ -181,7 +181,6 @@ export default {
 }
 
 .meta-item {
-  padding: 3px;
   background-color: inherit;
   padding-top: 2px !important;
   padding-bottom: 2px !important;
