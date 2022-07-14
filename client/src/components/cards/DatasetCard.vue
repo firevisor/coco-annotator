@@ -127,13 +127,22 @@
                   :typeahead-activation-threshold="0"
                 />
               </div>
+              <hr />
 
               <Metadata
                 :metadata="defaultMetadata"
                 title="Default Annotation Metadata"
-                key-name="Default Key"
-                value-name="Default Value"
                 ref="defaultAnnotation"
+                v-on:error="onValidationError($event)"
+              />
+              <hr />
+
+              <Metadata
+                :metadata="datasetTags"
+                title="Dataset Tags"
+                ref="datasetTags"
+                empty-message="No tags"
+                v-on:error="onValidationError($event)"
               />
             </form>
           </div>
@@ -143,6 +152,7 @@
               class="btn btn-success"
               @click="onSave"
               data-dismiss="modal"
+              :disabled="!allowSave"
             >
               Save
             </button>
@@ -237,9 +247,11 @@ export default {
       imageError: false,
       selectedCategories: [],
       defaultMetadata: this.dataset.default_annotation_metadata,
+      datasetTags: this.dataset.tags,
       noImageUrl: require("@/assets/no-image.png"),
       notFoundImageUrl: require("@/assets/404-image.png"),
-      sharedUsers: []
+      sharedUsers: [],
+      allowSave: true,
     };
   },
   methods: {
@@ -278,13 +290,19 @@ export default {
         this.$parent.updatePage();
       });
     },
+    onValidationError(error) {
+      this.allowSave = !error;
+    },
     onSave() {
       this.dataset.categories = this.selectedCategories;
+      this.$refs.defaultAnnotation.clearEmptyItems();
+      this.$refs.datasetTags.clearEmptyItems();
 
       axios
         .post("/api/dataset/" + this.dataset.id, {
           categories: this.selectedCategories,
-          default_annotation_metadata: this.$refs.defaultAnnotation.export()
+          default_annotation_metadata: this.$refs.defaultAnnotation.export(),
+          tags: this.$refs.datasetTags.export()
         })
         .then(() => {
           this.$parent.updatePage();
@@ -389,6 +407,7 @@ p {
   padding: 2px;
   background-color: #4b5162;
 }
+
 .icon-more {
   width: 10%;
   margin: 3px 0;
@@ -401,6 +420,7 @@ p {
   margin: 0 5px 7px 5px;
   height: 5px;
 }
+
 .card-footer {
   padding: 2px;
   font-size: 11px;
